@@ -1,7 +1,5 @@
 # Grafana Data Source Plugin Template
 
-[![CircleCI](https://circleci.com/gh/grafana/simple-datasource/tree/master.svg?style=svg)](https://circleci.com/gh/grafana/simple-datasource/tree/master)
-
 This template is a starting point for building Grafana Data Source Plugins
 
 ## What is Grafana Data Source Plugin?
