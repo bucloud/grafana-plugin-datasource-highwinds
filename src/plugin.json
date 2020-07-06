@@ -2,6 +2,7 @@
   "type": "datasource",
   "name": "highwinds-datasource",
   "id": "bucloud-highwinds-datasource",
+  "alerting": true,
   "metrics": true,
   "logs": true,
   "info": {

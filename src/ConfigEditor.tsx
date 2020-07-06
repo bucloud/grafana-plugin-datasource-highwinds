@@ -199,7 +199,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
               onChange={h => {
                 this.onHeaderChange(i, h);
               }}
-              onBlur={() => { }}
+              onBlur={() => {}}
               onRemove={this.onHeaderRemove}
               onReset={this.onHeaderReset}
             />
@@ -220,5 +220,5 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
       // </div>
     );
-  };
+  }
 }

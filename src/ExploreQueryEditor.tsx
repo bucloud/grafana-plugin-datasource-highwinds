@@ -6,9 +6,8 @@ import { ST3Query, ST3DataSourceOptions, defaultQuery } from 'types';
 import { defaults } from 'lodash';
 type Props = ExploreQueryFieldProps<ST3DataSource, ST3Query, ST3DataSourceOptions>;
 export default (props: Props) => {
-  
-  const query = defaults(props.query,defaultQuery)
-  
+  const query = defaults(props.query, defaultQuery);
+
   const onQueryChange = (value: ST3Query) => {
     const { query, onChange, onRunQuery } = props;
 
@@ -21,7 +20,5 @@ export default (props: Props) => {
     }
   };
 
-  return (
-    <CommonQueryField options={query} ds={props.datasource} onChange={onQueryChange}></CommonQueryField>
-  );
+  return <CommonQueryField options={query} ds={props.datasource} onChange={onQueryChange}></CommonQueryField>;
 };
