@@ -58,7 +58,9 @@ export class ConfigEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     const { jsonData } = this.props.options;
-    console.log(jsonData.customHeaders);
+    if (props.options.url.length <= 1) {
+      props.options.url = 'https://striketracker.highwinds.com';
+    }
     const preHeaders = (jsonData.customHeaders || []) as CustomHeader[];
     this.state = {
       headers: preHeaders,
@@ -165,7 +167,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
             labelWidth={10}
             inputWidth={20}
             onChange={this.onApiBaseChange}
-            value={jsonData.url || 'https://striketracker.highwinds.com'}
+            value={jsonData.url || this.props.options.url}
             placeholder={'Striketracker API hostname'}
           />
         </div>
