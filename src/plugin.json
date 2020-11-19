@@ -1,7 +1,7 @@
 {
   "type": "datasource",
-  "name": "highwinds-datasource",
-  "id": "bucloud-highwinds-datasource",
+  "name": "ds-highwinds",
+  "id": "bucloud-ds-highwinds",
   "alerting": true,
   "metrics": true,
   "logs": true,
@@ -24,11 +24,11 @@
     "links": [
       {
         "name": "Website",
-        "url": "https://github.com/grafana/simple-datasource"
+        "url": "https://github.com/bucloud/grafana-plugin-datasource-highwinds"
       },
       {
         "name": "License",
-        "url": "https://github.com/grafana/simple-datasource/blob/master/LICENSE"
+        "url": "https://github.com/bucloud/grafana-plugin-datasource-highwinds/blob/master/LICENSE"
       }
     ],
     "screenshots": [],

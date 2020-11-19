@@ -1,6 +1,6 @@
 {
   "name": "buweb-cloud-highwinds-datasource",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Highwinds striketracker3 datasource",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
