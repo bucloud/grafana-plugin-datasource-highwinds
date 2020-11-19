@@ -28,11 +28,8 @@ export interface ST3Query extends DataQuery {
 
 export const defaultQuery: Partial<ST3Query> = {
   type: 'transfer',
-  filters: {
-    platforms: 'DELIVERY',
-    groupBy: GroupBy.ACCOUNT,
-    granularity: Granularity.PT1H,
-  },
+  filters: { platforms: 'DELIVERY', groupBy: GroupBy.ACCOUNT, granularity: Granularity.PT1H },
+  metrics: 'xferUsedTotalMB',
 };
 
 /**

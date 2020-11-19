@@ -151,7 +151,7 @@ export class ST3DataSource extends DataSourceApi<ST3Query, ST3DataSourceOptions>
         )
     ).then(res => {
       const metrics = options.metrics?.split(',') || [];
-      // const metricsCount = metrics.length;
+      const metricsCount = metrics.length;
       const { series } = res as MetricsDataList;
       // debugger;
       const metricsData = series.filter(v => v.data.length > 0);
@@ -181,8 +181,8 @@ export class ST3DataSource extends DataSourceApi<ST3Query, ST3DataSourceOptions>
         dataFields.push(
           ...metricsData.map(v => {
             return {
-              // name: metricsCount==1?v.key:(metricsData.length==1?m:v.key +'.'+m),
-              name: v.key + '.' + m,
+              name: metricsCount === 1 ? v.key : metricsData.length === 1 ? m : v.key + '.' + m,
+              // name: v.key + '.' + m,
               values: v.data.map(dp => dp[columnIndexs[i]]),
               type: m.endsWith('Time') ? FieldType.time : FieldType.number,
             };
@@ -227,9 +227,9 @@ export class ST3DataSource extends DataSourceApi<ST3Query, ST3DataSourceOptions>
     };
     Object.assign(
       requestOptions.headers,
-      ...this.dsSettings.jsonData.customHeaders?.map(v => {
+      ...(this.dsSettings.jsonData.customHeaders?.map(v => {
         return { [v.name]: v.value };
-      })
+      }) || {})
     );
     requestOptions.withCredentials = false;
     return getBackendSrv().datasourceRequest(requestOptions);

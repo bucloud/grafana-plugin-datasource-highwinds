@@ -36,7 +36,6 @@ export class CommonQueryField extends React.Component<Props, State> {
     const f = statusFilter.map(v => {
       return v.value;
     });
-    console.log(options.metrics, options.metrics?.split(','), options.metrics?.split(',').length);
     this.state = {
       metrics: options.metrics?.split(',') || [],
       filter: Object.entries(options.filters)
@@ -54,7 +53,7 @@ export class CommonQueryField extends React.Component<Props, State> {
       },
       interval: Granularity.PT1H,
     };
-    console.log(this.state.metrics, this.state.metrics.length);
+    // console.log(this.state.metrics, this.state.metrics.length);
   }
   updateOptions = () => {
     //Parse metrics
@@ -82,7 +81,12 @@ export class CommonQueryField extends React.Component<Props, State> {
 
   render() {
     const selectOptions = getFilterOptions(this.state.type);
-
+    if (this.state.metrics.length === 0) {
+      this.setState({
+        ...this.state,
+        metrics: Array<SelectableValue<any>>(selectOptions.Metrics[0]),
+      });
+    }
     const onSingleValueChange = (v: any) => {
       this.setState(state => {
         return {
@@ -90,8 +94,6 @@ export class CommonQueryField extends React.Component<Props, State> {
           ...v,
         };
       }, this.updateOptions);
-      console.log(v);
-      console.log(this.state);
     };
 
     const onFilterChange = (obj: QueryFilter) => {
@@ -154,8 +156,6 @@ export class CommonQueryField extends React.Component<Props, State> {
     const loadOptions = (query: string, type = 'pops') => {
       // console.log(this.state.filter?.filter(v => v.id === customOptionsID).map((fv)=>{return fv.customOptions}));
       // let co = this.state.filter?.filter(v => v.id === customOptionsID).splice(0,1).map((v)=>{return v.customOptions || []})[0] as SelectableValue<string>[];
-      // console.log(co);
-      console.log(type, query);
       const { ds } = this.props;
       return new Promise<Array<SelectableValue<string>>>(resolve =>
         resolve(
@@ -190,7 +190,6 @@ export class CommonQueryField extends React.Component<Props, State> {
                     }
                   );
                 } else if (type === 'accounts') {
-                  console.log('asd', 'load account', res['accounts']);
                   return res['accounts'].map(
                     (account: {
                       accountHash: string;
@@ -226,7 +225,6 @@ export class CommonQueryField extends React.Component<Props, State> {
         )
       );
     };
-
     return (
       <>
         <div style={{ marginBottom: 4 }}>
@@ -236,9 +234,9 @@ export class CommonQueryField extends React.Component<Props, State> {
             </label>
             <Select
               options={[
-                { label: 'Print transfer statics', value: 'transfer' },
-                { label: 'Print statusCode statics', value: 'status' },
-                { label: 'Print cachedObject statics', value: 'storage' },
+                { label: 'Transfer/Bandwidth', value: 'transfer' },
+                { label: 'statusCode', value: 'status' },
+                { label: 'CachedObjects', value: 'storage' },
               ]}
               onChange={v => onSingleValueChange({ type: v.value })}
               defaultValue={'transfer'}

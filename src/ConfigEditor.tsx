@@ -165,7 +165,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
             labelWidth={10}
             inputWidth={20}
             onChange={this.onApiBaseChange}
-            value={jsonData.url || ''}
+            value={jsonData.url || 'https://striketracker.highwinds.com'}
             placeholder={'Striketracker API hostname'}
           />
         </div>
