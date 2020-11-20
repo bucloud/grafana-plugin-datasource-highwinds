@@ -30,12 +30,14 @@ interface State {
 }
 
 export class CommonQueryField extends React.Component<Props, State> {
+  forceAccount = "";
   constructor(props: Props) {
     super(props);
     const { options, ds } = this.props;
     const f = statusFilter.map(v => {
       return v.value;
     });
+    this.forceAccount = ds.dsSettings.jsonData.defaultAccountHash;
     this.state = {
       metrics: options.metrics?.split(',') || [],
       filter: Object.entries(options.filters)
@@ -166,7 +168,7 @@ export class CommonQueryField extends React.Component<Props, State> {
                 });
               })
             : type === 'accounts' || type === 'hosts'
-            ? ds.get('/api/v1/accounts/' + this.state.accountHash.value + '/search?search=' + query).then(res => {
+            ? ds.get('/api/v1/accounts/' + this.forceAccount + '/search?search=' + query).then(res => {
                 if (type === 'hosts') {
                   return res['hostnames'].map(
                     (host: {
