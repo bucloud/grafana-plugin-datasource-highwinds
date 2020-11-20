@@ -30,7 +30,7 @@ interface State {
 }
 
 export class CommonQueryField extends React.Component<Props, State> {
-  forceAccount = "";
+  forceAccount = '';
   constructor(props: Props) {
     super(props);
     const { options, ds } = this.props;
