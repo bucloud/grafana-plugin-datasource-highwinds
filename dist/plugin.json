@@ -1,0 +1,43 @@
+{
+  "type": "datasource",
+  "name": "ds-highwinds",
+  "id": "bucloud-ds-highwinds",
+  "alerting": true,
+  "metrics": true,
+  "logs": true,
+  "info": {
+    "description": "Highwinds striketracker3 datasource",
+    "author": {
+      "name": "MagicQ",
+      "url": "https://www.buwebcloud.com/"
+    },
+    "keywords": [
+      "highwinds",
+      "stracketracker",
+      "stackpath",
+      "sp2"
+    ],
+    "logos": {
+      "small": "img/hw-logo-small.png",
+      "large": "img/hw-logo-big.png"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/bucloud/grafana-plugin-datasource-highwinds"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/bucloud/grafana-plugin-datasource-highwinds/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "0.0.2",
+    "updated": "2020-12-22"
+  },
+  "streaming":true,
+  "dependencies": {
+    "grafanaVersion": "6.5.x",
+    "plugins": []
+  }
+}

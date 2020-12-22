@@ -14,7 +14,7 @@ import { Observable, merge } from 'rxjs';
 import { getBackendSrv } from '@grafana/runtime';
 import { getTemplateSrv } from '@grafana/runtime';
 
-import { ST3Query, ST3DataSourceOptions, defaultQuery, MetricsDataList } from './types';
+import { ST3Query, ST3DataSourceOptions, defaultQuery, MetricsDataList, PoPInfo } from './types';
 
 export class ST3DataSource extends DataSourceApi<ST3Query, ST3DataSourceOptions> {
   dsSettings: DataSourceInstanceSettings<ST3DataSourceOptions>;
@@ -25,18 +25,78 @@ export class ST3DataSource extends DataSourceApi<ST3Query, ST3DataSourceOptions>
 
   //Going to add support for metric find query
   metricFindQuery(query: any) {
-    return this.get('/api/v1/pops').then(res =>
-      res.list.map((v: any) => {
-        return { label: v.name, value: v.code };
-      })
-    );
+    let q;
+    try {
+      q = JSON.parse(query);
+    } catch (error) {
+      console.log(error);
+      q = { query: query };
+    }
+    switch (q.query.toUpperCase()) {
+      case 'POP_CODE':
+        return this.get('/api/v1/pops').then(res =>
+          res.list.map((v: PoPInfo) => {
+            return { value: v.code, text: v.name };
+          })
+        );
+      case 'POP_COUNTRY':
+        return this.get('/api/v1/pops').then(res => {
+          let list = [] as string[];
+          return res.list
+            .map((v: PoPInfo) => {
+              return { text: v.country, value: v.country };
+            })
+            .filter((v: any) => {
+              if (list.includes(v.value)) {
+                return false;
+              } else {
+                list.push(v.value);
+                return true;
+              }
+            });
+        });
+      case 'POP_GROUP':
+        return this.get('/api/v1/pops').then(res => {
+          let list = [] as string[];
+          return res.list
+            .map((v: PoPInfo) => {
+              return { text: v.group, value: v.group };
+            })
+            .filter((v: any) => {
+              if (list.includes(v.value)) {
+                return false;
+              } else {
+                list.push(v.value);
+                return true;
+              }
+            });
+        });
+      case 'POP_REGION':
+        return this.get('/api/v1/pops').then(res => {
+          let list = [] as string[];
+          return res.list
+            .map((v: PoPInfo) => {
+              return { text: v.region, value: v.region };
+            })
+            .filter((v: any) => {
+              if (list.includes(v.value)) {
+                return false;
+              } else {
+                list.push(v.value);
+                return true;
+              }
+            });
+        });
+      default:
+        return Promise.resolve([]);
+    }
 
     // return Promise.resolve([]);
   }
   query(options: DataQueryRequest<ST3Query>): Observable<DataQueryResponse> {
     const { range } = options;
-    const from = range!.from.format('YYYY-MM-DDTHH:mm:ss\\Z');
-    const to = range!.to.format('YYYY-MM-DDTHH:mm:ss\\Z');
+    const from = range!.from.utc().format('YYYY-MM-DDTHH:mm:ss\\Z');
+    const to = range!.to.utc().format('YYYY-MM-DDTHH:mm:ss\\Z');
     console.log(
       getTemplateSrv()
         .getVariables()
@@ -229,7 +289,7 @@ export class ST3DataSource extends DataSourceApi<ST3Query, ST3DataSourceOptions>
       requestOptions.headers,
       ...(this.dsSettings.jsonData.customHeaders?.map(v => {
         return { [v.name]: v.value };
-      }) || {})
+      }) || [])
     );
     requestOptions.withCredentials = false;
     return getBackendSrv().datasourceRequest(requestOptions);
